@@ -13,7 +13,7 @@ class CreateBillsTables extends Migration
      */
     public function up()
     {
-        Schema::create('bills_tables', function (Blueprint $table) {
+        Schema::create('bills', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('user_id');
@@ -33,6 +33,6 @@ class CreateBillsTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bills_tables');
+        Schema::dropIfExists('bills');
     }
 }
