@@ -12,6 +12,15 @@ use Illuminate\Database\Eloquent\Model;
 class Apartment extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'user_id', 'unit', 'floor'
+    ];
+
+    /**
      * @description 定义反向关联至User模型
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
