@@ -19,7 +19,7 @@ class CreateApartmentsTables extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->string('name');
             $table->integer('unit');
-            $table->integer('floor');
+            $table->integer('doorplate');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');

@@ -12,7 +12,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        $role_list = ['管理员', '操作员'];
+        $role_list = ['管理员', '操作员', '业主'];
         foreach ($role_list as $key => $value) {
             $role = new Role;
             $role->name = $value;
