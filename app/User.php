@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Gravatar;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Passport\HasApiTokens;
@@ -33,6 +34,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password'
     ];
+
+    /**
+     * 追加到模型数组的访问器
+     *
+     * @var array
+     */
+    protected $appends = ['gravatar'];
+
+    public function getGravatarAttribute($value)
+    {
+        return Gravatar::src($this->email);
+    }
 
     /**
      * @description 定义反向关联至Role模型

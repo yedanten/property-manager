@@ -37,11 +37,7 @@ class UserController extends Controller
             'email' => 'bail|required|unique:users|email',
             'name' => 'bail|required|max:255',
             'password' => 'bail|required|min:6',
-            'role' => [
-                'bail',
-                'required',
-                Rule::in(['管理员', '操作员', '业主'])
-            ]
+            'role' => 'bail|required|exists:roles,name'
         ])->validate();
 
         $role = Role::where('name', $request->role)->first();
@@ -97,12 +93,53 @@ class UserController extends Controller
             'password' => 'bail|required|min:6'
         ])->validate();
 
-        $user = Auth::user();
+        if ($request->has('id')) {
+            $user = User::find($request->id);
+        } else {
+            $user = Auth::user();
+        }
+
         $user->password = $request->password;
         $user->save();
         return response()->json([
             'code' => 200,
             'message' => '修改成功'
         ]);
+    }
+
+    /**
+     * @description 查找用户
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function find(Request $request)
+    {
+        Validator::make($request->all(), [
+            'email' => 'email',
+            'name' => 'string',
+            'role' => [
+                Rule::in(['管理员', '操作员', '业主'])
+            ]
+        ])->validate();
+
+        if ($request->has('email')) {
+            $user = User::with('role')->where('email', $request->email)->get();
+            return $user;
+        }
+
+
+        $query = [];
+        if ($request->has('role')) {
+            $role_id = Role::where('name', $request->role)->pluck('id');
+            array_push($query, ['role_id', $role_id]);
+        }
+
+        if ($request->has('name')) {
+            array_push($query, ['name', $request->name]);
+        } 
+
+        $user = User::with('role')->where($query)->get();
+        return $user;
+        
     }
 }

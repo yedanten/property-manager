@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+use App\Apartment;
 use Illuminate\Http\Request;
 
+/**
+ * @className ApartmentController
+ * @namespace App\Http\Controllers
+ * @description 楼宇模块控制器
+ */
 class ApartmentController extends Controller
 {
     /**
@@ -11,19 +18,14 @@ class ApartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        Validator::make($request->all(), [
+            'per_page' => 'integer|min:1',
+            'page' => 'integer|min:1'
+        ])->validate();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Apartment::paginate($request->per_page);
     }
 
     /**
@@ -34,7 +36,22 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'name' => 'bail|required',
+            'unit' => 'bail|integer|min:1',
+            'doorplate' => 'bail|integer'
+        ])->validate();
+
+        $apartment = new Apartment;
+        $apartment->name = $request->name;
+        $apartment->unit = $request->unit;
+        $apartment->doorplate = $request->doorplate;
+
+        $apartment->save();
+        return response()->json([
+            'code' => 200,
+            'message' => '添加成功'
+        ]);
     }
 
     /**
@@ -43,18 +60,7 @@ class ApartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function show(Request $request, $id)
     {
         //
     }

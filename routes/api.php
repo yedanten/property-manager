@@ -18,8 +18,9 @@ use Illuminate\Http\Request;
 });
 */
 Route::post('/user/login', 'UserController@login');
-
 Route::middleware('auth:api')->group(function () {
     Route::post('/user', 'UserController@add');
     Route::get('/user', 'UserController@current');
+    Route::get('/user/search', 'UserController@find');
+    Route::resource('apartment', 'ApartmentController')->except(['edit', 'create']);
 });
