@@ -23,4 +23,5 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user/current', 'UserController@current');
     Route::get('/user/search', 'UserController@find');
     Route::resource('apartment', 'ApartmentController')->except(['edit', 'create']);
+    Route::resource('workorder', 'WorkorderController')->except(['edit', 'create']);
 });

@@ -131,9 +131,7 @@ class UserController extends Controller
         Validator::make($request->all(), [
             'email' => 'email',
             'name' => 'string',
-            'role' => [
-                Rule::in(['管理员', '操作员', '业主'])
-            ]
+            'role' => 'bail|required|exists:roles,name'
         ])->validate();
 
         if ($request->has('email')) {
