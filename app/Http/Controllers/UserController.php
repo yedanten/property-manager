@@ -33,6 +33,8 @@ class UserController extends Controller
      */
     public function add(Request $request)
     {
+        $this->authorize('isAdmin', Auth::user());
+
         Validator::make($request->all(), [
             'email' => 'bail|required|unique:users|email',
             'name' => 'bail|required|max:255',
@@ -41,6 +43,10 @@ class UserController extends Controller
         ])->validate();
 
         $role = Role::where('name', $request->role)->first();
+
+        if ($role->id !== 3) {
+            $this->authorize('isSuperAdmin', Auth::user());
+        }
 
         $user = new User;
         $user->name = $request->name;
@@ -94,7 +100,11 @@ class UserController extends Controller
         ])->validate();
 
         if ($request->has('id')) {
+            $this->authorize('isAdmin', Auth::user());
             $user = User::find($request->id);
+            if ($user->role_id != 3) {
+                $this->authorize('isSuperAdmin', Auth::user());
+            }
         } else {
             $user = Auth::user();
         }
@@ -114,6 +124,8 @@ class UserController extends Controller
      */
     public function find(Request $request)
     {
+        $this->authorize('isAdmin', Auth::user());
+        
         Validator::make($request->all(), [
             'email' => 'email',
             'name' => 'string',
