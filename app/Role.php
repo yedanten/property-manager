@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @className Role
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +22,14 @@ class Role extends Model
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * 需要转换成日期的属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
 
     /**
      * @description 定义一对多关联至User模型

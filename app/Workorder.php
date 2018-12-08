@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @className Workorder
@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Workorder extends Model
 {
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +22,13 @@ class Workorder extends Model
     protected $fillable = [
         'user_id', 'type', 'content'
     ];
+
+    /**
+     * 需要转换成日期的属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * @description 定义反向关联至User模型

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @className Apartment
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Apartment extends Model
 {
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +22,13 @@ class Apartment extends Model
     protected $fillable = [
         'name', 'user_id', 'unit', 'doorplate'
     ];
+
+    /**
+     * 需要转换成日期的属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * @description 定义反向关联至User模型

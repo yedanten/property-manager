@@ -36,7 +36,9 @@ class ApartmentController extends Controller
         if ($request->has('doorplate')) {
             array_push($query, $request->doorplate);
         }
+
         $list = Apartment::with('user')->where($query);
+
         if ($request->has('hasuser')) {
             if ($request->hasuser) {
                 $list->whereNotNull('user_id');
@@ -94,7 +96,30 @@ class ApartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->authorize('isAdmin', Auth::user());
+
+        Validator::make($request->all(), [
+            'user_id' => 'exists:user,id',
+            'name' => 'required',
+            'unit' => 'required',
+            'doorplate' => 'required'
+        ])->validate();
+
+        $apartment = Apartment::find($id);
+        if ($request->has('name') || $request->has('unit') || $request->has('doorplate')) {
+            $this->authorize('isSuperAdmin', Auth::user());
+        }
+        $apartment->name = $request->name;
+        $apartment->unit = $request->unit;
+        $apartment->doorplate = $apartment->doorplate;
+        if ($request->has('user_id')) {
+            $apartment->user_id = $request->user_id;
+        }
+        $apartment->save();
+        return response()->json([
+            'code' => 200,
+            'message' => '修改成功'
+        ]);
     }
 
     /**
@@ -105,6 +130,12 @@ class ApartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('isSuperAdmin', Auth::user());
+        $apartment = Apartment::find($id);
+        $apartment->delete();
+        return response()->json([
+            'code' => 200,
+            'message' => '删除成功'
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @className Bill
@@ -11,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bill extends Model
 {
+    use SoftDeletes;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +22,13 @@ class Bill extends Model
     protected $fillable = [
         'user_id', 'type', 'pay_type', 'cost'
     ];
+
+    /**
+     * 需要转换成日期的属性
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * @description 定义反向关联至User模型
