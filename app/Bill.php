@@ -28,8 +28,28 @@ class Bill extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at','deleted_at'];
 
+    /**
+     * 定义cost访问器
+     * @param  int
+     * @return float
+     */
+    public function getCostAttribute($value)
+    {
+        return $value/100;
+    }
+
+    /**
+     * 定义cost修改器
+     * @param  int
+     * @return void
+     */
+    public function setCostAttribute($value)
+    {
+        $this->attributes['cost'] = $value * 100;
+    }
+    
     /**
      * @description 定义反向关联至User模型
      * 

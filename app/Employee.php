@@ -19,15 +19,14 @@ class Employee extends Model
      *
      * @var array
      */
+    protected $fillable = [
+        'name', 'job'
+    ];
     
     /**
      * 需要转换成日期的属性
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
-    
-    protected $fillable = [
-        'name', 'job'
-    ];
+    protected $dates = ['created_at', 'updated_at','deleted_at'];
 }

@@ -41,7 +41,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at','deleted_at'];
 
     /**
      * 追加到模型数组的访问器
@@ -50,6 +50,11 @@ class User extends Authenticatable
      */
     protected $appends = ['gravatar'];
 
+    /**
+     * 定义gravatar属性访问器
+     * @param  string
+     * @return string
+     */
     public function getGravatarAttribute($value)
     {
         return Gravatar::src($this->email);

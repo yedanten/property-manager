@@ -28,7 +28,7 @@ class Apartment extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at','deleted_at'];
 
     /**
      * @description 定义反向关联至User模型

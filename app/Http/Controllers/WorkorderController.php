@@ -45,7 +45,7 @@ class WorkorderController extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'type' => 'integer|min:1'
+            'type' => 'integer|min:0|max:1'
         ])->validate();
 
         $order = new Workorder([
@@ -69,7 +69,11 @@ class WorkorderController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return Workorder::withTrashed()->with('user')->find($id);
+        $order = Workorder::withTrashed()->with('user')->find($id);
+        if ($order->user_id != Auth::id()) {
+            $this->authorize('isAdmin', Auth::user());
+        }
+        return $order;
     }
 
     /**

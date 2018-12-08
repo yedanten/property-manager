@@ -28,8 +28,7 @@ class Role extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
-
+    protected $dates = ['created_at', 'updated_at','deleted_at'];
 
     /**
      * @description 定义一对多关联至User模型
