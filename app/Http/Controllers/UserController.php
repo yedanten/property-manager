@@ -23,7 +23,9 @@ class UserController extends Controller
      */
     public function current(Request $request)
     {
-        return Auth::user();
+        $user = Auth::user();
+        $user->load('role', 'apartment', 'bill', 'workorder');
+        return $user;
     }
 
     /**
@@ -125,7 +127,7 @@ class UserController extends Controller
     public function find(Request $request)
     {
         $this->authorize('isAdmin', Auth::user());
-        
+
         Validator::make($request->all(), [
             'email' => 'email',
             'name' => 'string',
