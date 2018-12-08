@@ -39,7 +39,7 @@ class ApartmentController extends Controller
         $list = Apartment::where($query);
         if ($request->has('hasuser')) {
             if ($request->hasuser) {
-                $list->whereNotNull('user_id';)
+                $list->whereNotNull('user_id');
             }
             $list->whereNull('user_id');
         }
