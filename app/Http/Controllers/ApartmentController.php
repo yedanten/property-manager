@@ -36,7 +36,7 @@ class ApartmentController extends Controller
         if ($request->has('doorplate')) {
             array_push($query, $request->doorplate);
         }
-        $list = Apartment::where($query);
+        $list = Apartment::with('user')->where($query);
         if ($request->has('hasuser')) {
             if ($request->hasuser) {
                 $list->whereNotNull('user_id');
