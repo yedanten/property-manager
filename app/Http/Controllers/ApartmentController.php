@@ -22,10 +22,28 @@ class ApartmentController extends Controller
     {
         Validator::make($request->all(), [
             'per_page' => 'integer|min:1',
-            'page' => 'integer|min:1'
+            'page' => 'integer|min:1',
+            'hasuser' => 'boolean'
         ])->validate();
 
-        return Apartment::paginate($request->per_page);
+        $query = [];
+        if ($request->has('name')) {
+            array_push($query, ['name', $request->name]);
+        }
+        if ($request->has('unit')) {
+            array_push($query, $request->unit);
+        }
+        if ($request->has('doorplate')) {
+            array_push($query, $request->doorplate);
+        }
+        $list = Apartment::where($query);
+        if ($request->has('hasuser')) {
+            if ($request->hasuser) {
+                $list->whereNotNull('user_id';)
+            }
+            $list->whereNull('user_id');
+        }
+        return $list->paginate($request->per_page);
     }
 
     /**
@@ -36,6 +54,8 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('isSuperAdmin', Auth::user());
+
         Validator::make($request->all(), [
             'name' => 'bail|required',
             'unit' => 'bail|integer|min:1',
@@ -62,7 +82,7 @@ class ApartmentController extends Controller
      */
     public function show(Request $request, $id)
     {
-        //
+        return Apartment::with('user')->find($id);
     }
 
     /**
