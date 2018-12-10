@@ -61,7 +61,7 @@ class BillController extends Controller
             $bill = new Bill([
                 'type' => $request->type,
                 'pay_type' => $request->pay_type,
-                'cost' => $request->cost;
+                'cost' => $request->cost
             ]);
             $user->bill()->save($bill);
             DB::commit();
