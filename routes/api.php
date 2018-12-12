@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/user', 'UserController@add');
     Route::get('/user/current', 'UserController@current');
     Route::get('/user/search', 'UserController@find');
+    Route::patch('/user/password', 'UserController@resetPassword');
     Route::resource('/apartment', 'ApartmentController')->except(['edit', 'create']);
     Route::resource('/workorder', 'WorkorderController')->except(['edit', 'create', 'update']);
     Route::resource('/bill', 'BillController')->except(['edit', 'create', 'destroy', 'update']);
