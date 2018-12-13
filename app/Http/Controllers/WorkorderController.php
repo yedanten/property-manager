@@ -84,8 +84,11 @@ class WorkorderController extends Controller
      */
     public function destroy($id)
     {
-        $apartment = Workorder::find($id);
-        $apartment->delete();
+        $order = Workorder::find($id);
+        if ($order->user_id != Auth::id()) {
+            $this->authorize('isAdmin', Auth::user());
+        }
+        $order->delete();
         return response()->json([
             'code' => 200,
             'message' => '删除成功'
