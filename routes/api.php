@@ -27,5 +27,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource('/workorder', 'WorkorderController')->except(['edit', 'create', 'update']);
     Route::resource('/bill', 'BillController')->except(['edit', 'create', 'destroy', 'update']);
     Route::get('/system', 'SystemController@index');
+    Route::patch('/system', 'SystemController@update');
     Route::get('/system/backdb', 'SystemController@backupdb');
 });
